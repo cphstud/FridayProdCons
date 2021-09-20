@@ -11,6 +11,11 @@ public class Main {
         Producer p3 = new Producer(fibbFeedNumbers, fibbToBeSummed);
         Producer p4 = new Producer(fibbFeedNumbers, fibbToBeSummed);
         Consumer c1 = new Consumer(fibbToBeSummed);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Thread t1 = new Thread(p1);
         Thread t2 = new Thread(p2);
         Thread t3 = new Thread(p3);
@@ -26,14 +31,32 @@ public class Main {
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
+        System.out.println("Done");
 
         /*
-        ExecutorService es = Executors.newFixedThreadPool(3);
+        final ExecutorService es = Executors.newFixedThreadPool(10);
         es.execute(p1);
         es.execute(p2);
         es.execute(p3);
         es.execute(p4);
         es.execute(c1);
+        try {
+            boolean success = es.awaitTermination(10, TimeUnit.SECONDS);
+            if (!success) {
+                // A friendly log:
+                // Some operations fail to finish
+                // in 30 seconds in graceful shutdown.
+                System.out.println("Not done .. but");
+            }
+        } catch (InterruptedException e) {
+            // A friendly log:
+            // Hazelcast executor service is interrupted.
+            // There are unfinished jobs still running.
+            System.out.println("in ex");
+        }
+        //es.shutdown();
+        System.out.println("DOne");
+        /*
         try {
             es.awaitTermination(10, TimeUnit.SECONDS);
             es.shutdownNow();
@@ -42,6 +65,7 @@ public class Main {
         }
 
          */
+
 
 	// write your code here
     }
